@@ -3,13 +3,11 @@
 
 from .graph.graph import build_graph
 
-def main() -> None:
-    """Run the policy assistant CLI."""
+def main():
 
     print("Policy Assistant")
     print("Type 'quit' to exit.\n")
 
-    # Build the compiled LangGraph.
     graph = build_graph()
 
     chat_history = []
@@ -38,7 +36,6 @@ def main() -> None:
 
         print(f"\n bot> {answer}\n")
 
-        # Keep the conversation for the next turn.
         chat_history = result.get("chat_history", chat_history)
 
 

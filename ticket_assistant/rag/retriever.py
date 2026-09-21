@@ -12,7 +12,7 @@ from pathlib import Path
 
 from ..aws import config
 
-RUNBOOK_DIR = Path(__file__).resolve().parent.parent / "kb-documents"
+RUNBOOK_DIR = Path(__file__).resolve().parent.parent.parent / "kb-documents"
 
 # chunker
 def load_policy_chunks() -> list[Document]:
@@ -40,7 +40,6 @@ class ScoreThresholdRetriever(BaseRetriever):
 
     store : InMemoryVectorStore
     k : int = 4
-    threshold : float = 0.4
 
     # InMemoryVectorStore is not a type Pydantic will recognize, so we need to tell pydantic to allow it
 
@@ -52,10 +51,10 @@ class ScoreThresholdRetriever(BaseRetriever):
         hits = self.store.similarity_search_with_score(query, k=self.k)
 
         # filter out only the docs that meet our threshold min
-        return [doc for doc, score in hits if score >= self.threshold]
+        return [doc for doc, score in hits]
 
 @lru_cache(maxsize=1)
-def build_local_retriever(k : int = 4, threshold : float = 0.4) -> BaseRetriever:
+def build_local_retriever(k : int = 4) -> BaseRetriever:
     """ builds the in-memory vector store and creates the reliever for it
 
         cached so that chain doesn't have to spend time and money re-creating the embeddings
@@ -71,8 +70,7 @@ def build_local_retriever(k : int = 4, threshold : float = 0.4) -> BaseRetriever
 
     return ScoreThresholdRetriever(
         store=store,
-        k=k,
-        threshold=threshold
+        k=k
     )
 
 

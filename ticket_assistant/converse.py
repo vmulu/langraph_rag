@@ -16,8 +16,8 @@ from ticket_assistant.aws.aws import bedrock_runtime
 
 def converse(
         messages: list[dict],
-        system: str | None = None, 
-        max_tokens: int = 1024, 
+        system: str | None = None,
+        max_tokens: int = 1024,
         temperature: float = 0.2,           # more deterministic responses for ticket priority classification
         tool_config: dict | None = None,
         guardrail_config: dict | None = None,
