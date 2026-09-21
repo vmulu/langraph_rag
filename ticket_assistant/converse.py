@@ -11,8 +11,8 @@
             - guardrailConfig:  dict. info about what guardrail to wrap around the model call.
 """
 
-from ticket_assistant.config import MODEL_ID
-from ticket_assistant.aws import bedrock_runtime
+from ticket_assistant.aws.config import BEDROCK_MODEL_ID
+from ticket_assistant.aws.aws import bedrock_runtime
 
 def converse(
         messages: list[dict],
@@ -25,7 +25,7 @@ def converse(
     """ Make a converse callout and return the entire response for further inspection """
 
     request = {
-        "modelId": MODEL_ID,
+        "modelId": BEDROCK_MODEL_ID,
         "messages": messages,
         "inferenceConfig": {"maxTokens": max_tokens, "temperature": temperature}
     }
@@ -57,7 +57,7 @@ def text_of(response: dict) -> str:
     blocks = response["output"]["message"]["content"]
 
     # grabbing only the text blocks and appending them to one string
-    return "".join(block["text"] for block in blocks if "text" in block)    
+    return "".join(block["text"] for block in blocks if "text" in block)
 
 def format_user_message(message: str) -> dict:
     """ Formats text into a message Converse API expects to receive """

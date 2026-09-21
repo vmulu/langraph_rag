@@ -1,6 +1,6 @@
 from functools import lru_cache
 import boto3
-from ticket_assistant.config import AWS_PROFILE, AWS_REGION
+from ticket_assistant.aws.config import AWS_PROFILE, AWS_REGION
 
 
 @lru_cache(maxsize=1)
